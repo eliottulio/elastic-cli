@@ -13,9 +13,19 @@ int main() {
 
 	std::vector<std::vector<std::size_t>> tabstops = calc_tabstops(lines);
 
-	for (const auto& line : tabstops) {
-		for (std::size_t tabstop : line)
-			std::cout << tabstop << '\t';
+	for (std::size_t i = 0; i < lines.size(); i++) {
+		std::string_view line = lines[i];
+		for (std::size_t c = 0, count = 0, tab = 0; c < line.size(); c++) {
+			if (line[c] == '\t') {
+				while (count++ < tabstops[i][tab])
+					std::cout << ' ';
+				count = 0;
+				tab++;
+			} else {
+				std::cout << line[c];
+				count++;
+			}
+		}
 		std::cout << '\n';
 	}
 }
@@ -66,7 +76,9 @@ std::vector<std::vector<std::size_t>> calc_tabstops(std::vector<std::string> lin
 	return tabstops;
 }
 /*
-	Thing to test the program
+	Things to test the program:
+
+----------------------------------------------------------------------------------------------
 
 	Consumed	Produced	Net total
 Dirt:	250000	0	-250000
@@ -74,4 +86,43 @@ Meal Lice:	0	5000	5000
 Phosphorite:	20000	0	-20000
 Pincha Peppernut:	0	10000	10000
 Polluted Water:	700000	0	-700000
+
+----------------------------------------------------------------------------------------------
+
+	--------|	--------------------------	|--------
+	--------|	Welcome to Elastic Notepad	|--------
+	--------|	--------------------------	|--------
+	--------|		|--------
+	--------|	This is your scratch file.	|--------
+	--------|	It's initialised with this	|--------
+	--------|	text so you can play with	|--------
+	--------|	elastic tabstops.	|--------
+	--------|		|--------
+	--------|	--------------------------	|--------
+
+
+int someDemoCode(	int start,
+	int length)
+{
+	x()	// try making	//
+	print("hello!")	// this comment	//
+	doSomethingComplicated()	// a bit longer	//
+	for (i in range(start, length))
+	{
+		if (isValid(i))
+		{
+			count++
+		}
+	}
+	return count
+}
+
+
+You can use elastic tabstops with tables and TSV files too
+
+Title	Author	Publisher	Year
+Generation X	Douglas Coupland	Abacus	1995
+Informagic	Jean-Pierre Petit	John Murray Ltd	1982
+The Cyberiad	Stanislaw Lem	Harcourt Publishers Ltd	1985
+The Selfish Gene	Richard Dawkins	Oxford University Press	2006
 */
