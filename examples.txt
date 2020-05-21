@@ -26,15 +26,12 @@ Polluted Water:	700000	0	-700000
 
 
 int someDemoCode(	int start,
-	int length)
-{
+	int length) {
 	x()	// try making	//
 	print("hello!")	// this comment	//
 	doSomethingComplicated()	// a bit longer	//
-	for (i in range(start, length))
-	{
-		if (isValid(i))
-		{
+	for (i in range(start, length)) {
+		if (isValid(i)) {
 			count++
 		}
 	}
@@ -49,3 +46,7 @@ Generation X	Douglas Coupland	Abacus	1995
 Informagic	Jean-Pierre Petit	John Murray Ltd	1982
 The Cyberiad	Stanislaw Lem	Harcourt Publishers Ltd	1985
 The Selfish Gene	Richard Dawkins	Oxford University Press	2006
+
+def foo(	bar,
+	xyzzy):
+	wibble()

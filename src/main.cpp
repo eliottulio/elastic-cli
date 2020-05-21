@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-std::vector<std::vector<std::size_t>> calc_tabstops(std::vector<std::string> lines, std::size_t min_tabsize = 4);
+std::vector<std::vector<std::size_t>> calc_tabstops(std::vector<std::string> lines, std::size_t min_tabsize = 4, std::string_view block_begin_chars = ":{");
 
 int main() {
 	std::vector<std::string> lines;
@@ -30,7 +30,7 @@ int main() {
 	}
 }
 
-std::vector<std::vector<std::size_t>> calc_tabstops(std::vector<std::string> lines, std::size_t min_tabsize) {
+std::vector<std::vector<std::size_t>> calc_tabstops(std::vector<std::string> lines, std::size_t min_tabsize, std::string_view block_begin_chars) {
 	std::vector<std::vector<std::size_t>> tabstops;
 
 	std::size_t max_tab_nb = 0;
@@ -62,7 +62,7 @@ std::vector<std::vector<std::size_t>> calc_tabstops(std::vector<std::string> lin
 			// Calc tab length:
 			std::size_t tab_size = min_tabsize;
 			std::size_t start_line = line;
-			while (line < tabstops.size() && tabstops[line].size() > tab_nb) {
+			while (line < tabstops.size() && tabstops[line].size() > tab_nb && (line == start_line || block_begin_chars.find_first_of(lines[line - 1].back()) == std::string::npos)) {
 				if (tabstops[line][tab_nb] > tab_size)
 					tab_size = tabstops[line][tab_nb];
 				line++;
@@ -70,6 +70,9 @@ std::vector<std::vector<std::size_t>> calc_tabstops(std::vector<std::string> lin
 			// Assign tab length:
 			for (std::size_t line_ = start_line; line_ < line; line_++)
 				tabstops[line_][tab_nb] = tab_size;
+
+			if (line != start_line && block_begin_chars.find_first_of(lines[line - 1].back()) != std::string::npos)
+				line -= 1;
 		}
 	}
 
