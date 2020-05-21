@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-std::vector<std::vector<std::size_t>> calc_tabstops(std::vector<std::string> lines);
+std::vector<std::vector<std::size_t>> calc_tabstops(std::vector<std::string> lines, std::size_t min_tabsize = 4);
 
 int main() {
 	std::vector<std::string> lines;
@@ -30,7 +30,7 @@ int main() {
 	}
 }
 
-std::vector<std::vector<std::size_t>> calc_tabstops(std::vector<std::string> lines) {
+std::vector<std::vector<std::size_t>> calc_tabstops(std::vector<std::string> lines, std::size_t min_tabsize) {
 	std::vector<std::vector<std::size_t>> tabstops;
 
 	std::size_t max_tab_nb = 0;
@@ -60,7 +60,7 @@ std::vector<std::vector<std::size_t>> calc_tabstops(std::vector<std::string> lin
 				line++;
 
 			// Calc tab length:
-			std::size_t tab_size = 4;
+			std::size_t tab_size = min_tabsize;
 			std::size_t start_line = line;
 			while (line < tabstops.size() && tabstops[line].size() > tab_nb) {
 				if (tabstops[line][tab_nb] > tab_size)
