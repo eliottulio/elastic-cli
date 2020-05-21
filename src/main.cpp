@@ -59,9 +59,10 @@ std::vector<std::vector<std::size_t>> calc_tabstops(std::vector<std::string> lin
 			while (line < tabstops.size() && tabstops[line].size() <= tab_nb)
 				line++;
 
-			// Calc tab length:
+			// Calc max tab length:
 			std::size_t tab_size = min_tabsize;
 			std::size_t start_line = line;
+			// Loops until the end of the block:
 			while (line < tabstops.size() && tabstops[line].size() > tab_nb && (line == start_line || block_begin_chars.find_first_of(lines[line - 1].back()) == std::string::npos)) {
 				if (tabstops[line][tab_nb] > tab_size)
 					tab_size = tabstops[line][tab_nb];
@@ -71,6 +72,7 @@ std::vector<std::vector<std::size_t>> calc_tabstops(std::vector<std::string> lin
 			for (std::size_t line_ = start_line; line_ < line; line_++)
 				tabstops[line_][tab_nb] = tab_size;
 
+			// If block over because start of code block, start new block on next line, not skipping one:
 			if (line != start_line && block_begin_chars.find_first_of(lines[line - 1].back()) != std::string::npos)
 				line -= 1;
 		}
