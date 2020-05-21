@@ -1,8 +1,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <functional>
 
-std::vector<std::vector<std::size_t>> calc_tabstops(std::vector<std::string> lines, std::size_t min_tabsize = 4, std::string_view block_begin_chars = ":{");
+std::vector<std::vector<std::size_t>> calc_tabstops(std::vector<std::string> lines, std::size_t min_tabsize = 4, std::string_view block_begin_chars = ":{", std::function<std::size_t(std::string_view)> get_str_size = [](std::string_view str) {return str.size();});
 
 int main() {
 	std::vector<std::string> lines;
@@ -30,7 +31,7 @@ int main() {
 	}
 }
 
-std::vector<std::vector<std::size_t>> calc_tabstops(std::vector<std::string> lines, std::size_t min_tabsize, std::string_view block_begin_chars) {
+std::vector<std::vector<std::size_t>> calc_tabstops(std::vector<std::string> lines, std::size_t min_tabsize, std::string_view block_begin_chars, std::function<std::size_t(std::string_view)> get_str_size) {
 	std::vector<std::vector<std::size_t>> tabstops;
 
 	std::size_t max_tab_nb = 0;
@@ -43,7 +44,7 @@ std::vector<std::vector<std::size_t>> calc_tabstops(std::vector<std::string> lin
 		std::size_t i;
 
 		while ((i = line.find_first_of('\t', prev_i + 1)) != std::string::npos) {
-			tabstops.back().push_back(i - prev_i);
+			tabstops.back().push_back(get_str_size(std::string_view(line).substr(prev_i + 1, i - prev_i - 1)) + get_str_size(" "));
 			prev_i = i;
 		}
 
