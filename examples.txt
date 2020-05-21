@@ -1,0 +1,51 @@
+# Static information about the filesystems.
+# See fstab(5) for details.
+
+#<file system>	<dir>	<type>	<options>	<dump>	<pass>	#<device>
+UUID=0000-0000-0666-420f	/	ext4	rw,relatime	0	1	#/dev/sda1
+UUID=0000-0000-1142	/boot	vfat	rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=iso8859-1,shortname=mixed,utf8,errors=remount-ro	0	2	#/dev/sda2
+UUID=dead-beef-a991-eeee	none	swap	defaults	0	0	#/dev/sda3
+
+	Consumed	Produced	Net total
+Dirt:	250000	0	-250000
+Meal Lice:	0	5000	5000
+Phosphorite:	20000	0	-20000
+Pincha Peppernut:	0	10000	10000
+Polluted Water:	700000	0	-700000
+
+	--------|	--------------------------	|--------
+	--------|	Welcome to Elastic Notepad	|--------
+	--------|	--------------------------	|--------
+	--------|		|--------
+	--------|	This is your scratch file.	|--------
+	--------|	It's initialised with this	|--------
+	--------|	text so you can play with	|--------
+	--------|	elastic tabstops.	|--------
+	--------|		|--------
+	--------|	--------------------------	|--------
+
+
+int someDemoCode(	int start,
+	int length)
+{
+	x()	// try making	//
+	print("hello!")	// this comment	//
+	doSomethingComplicated()	// a bit longer	//
+	for (i in range(start, length))
+	{
+		if (isValid(i))
+		{
+			count++
+		}
+	}
+	return count
+}
+
+
+You can use elastic tabstops with tables and TSV files too
+
+Title	Author	Publisher	Year
+Generation X	Douglas Coupland	Abacus	1995
+Informagic	Jean-Pierre Petit	John Murray Ltd	1982
+The Cyberiad	Stanislaw Lem	Harcourt Publishers Ltd	1985
+The Selfish Gene	Richard Dawkins	Oxford University Press	2006
