@@ -11,7 +11,9 @@ int main() {
 	while (std::getline(std::cin, line))
 		lines.push_back(line);
 
-	std::vector<std::vector<std::size_t>> tabstops = elastic::calc_tabstops(lines);
+	std::vector<std::vector<std::size_t>> tabstops = elastic::calc_tabstops(lines, 4, ":{", [](std::string_view str) {
+		return elastic::get_strlen(str) - (str[str.size() - 2] == '(' ? 1 : 0);
+	});
 
 	for (std::size_t i = 0; i < lines.size(); i++) {
 		std::string_view line = lines[i];
