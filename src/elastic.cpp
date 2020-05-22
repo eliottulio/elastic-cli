@@ -1,8 +1,21 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <unicode/brkiter.h>
 
 #include "elastic.hpp"
+
+std::size_t elastic::get_strlen(std::string_view str) {
+	icu::UnicodeString str_ = std::string(str).c_str();
+	UErrorCode err = U_ZERO_ERROR;
+	std::unique_ptr<icu::BreakIterator> iter(
+		icu::BreakIterator::createCharacterInstance(icu::Locale::getDefault(), err));
+	iter->setText(str_);
+
+	std::size_t count = 0;
+	while(iter->next() != icu::BreakIterator::DONE) ++count;
+	return count;
+}
 
 std::vector<std::vector<std::size_t>> elastic::calc_tabstops(	std::vector<std::string> lines,
 	std::size_t min_tabsize,
@@ -21,7 +34,7 @@ std::vector<std::vector<std::size_t>> elastic::calc_tabstops(	std::vector<std::s
 		std::size_t i;
 
 		while ((i = line.find_first_of('\t', prev_i + 1)) != std::string::npos) {
-			tabstops.back().push_back(get_str_size(std::string_view(line).substr(prev_i + 1, i - prev_i - 1)) + get_str_size(" "));
+			tabstops.back().push_back(get_str_size(line.substr(prev_i + 1, i - prev_i - 1) + ' '));
 			prev_i = i;
 		}
 

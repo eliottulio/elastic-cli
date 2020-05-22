@@ -15,17 +15,21 @@ int main() {
 
 	for (std::size_t i = 0; i < lines.size(); i++) {
 		std::string_view line = lines[i];
-		for (std::size_t c = 0, count = 0, tab = 0; c < line.size(); c++) {
-			if (line[c] == '\t') {
-				while (count++ < tabstops[i][tab])
-					std::cout << ' ';
-				count = 0;
-				tab++;
-			} else {
-				std::cout << line[c];
-				count++;
-			}
+
+		std::size_t prev_j = -1;
+		std::size_t j;
+		std::size_t tab = 0;
+
+		while ((j = line.find_first_of('\t', prev_j + 1)) != std::string::npos) {
+			std::size_t len = elastic::get_strlen(line.substr(prev_j + 1, j - prev_j - 1));
+
+			std::cout << line.substr(prev_j + 1, j - prev_j - 1);
+			for (std::size_t k = len; k < tabstops[i][tab]; k++)
+				std::cout << ' ';
+
+			prev_j = j;
+			tab++;
 		}
-		std::cout << '\n';
+		std::cout << line.substr(prev_j + 1) << '\n';
 	}
 }
