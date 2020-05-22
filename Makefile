@@ -13,7 +13,7 @@ C++ := $(C++) $(C++_OPTIONS)
 
 LINKER ?= g++
 LINKER_OPTIONS ?= -O3
-LINKER_OPTIONS := $(LINKER_OPTIONS) -pthread -licutu -licuuc
+LINKER_OPTIONS := $(LINKER_OPTIONS) -licutu -licuuc
 LINKER := $(LINKER) $(LINKER_OPTIONS)
 
 OBJECTS := $(patsubst $(SRC_DIR)%.cpp,$(OUT_DIR)%.o,$(wildcard $(SRC_DIR)*.cpp) $(wildcard $(SRC_DIR)*/*.cpp) $(wildcard $(SRC_DIR)*/*/*.cpp))
