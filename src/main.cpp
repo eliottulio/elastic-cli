@@ -4,14 +4,43 @@
 
 #include "elastic.hpp"
 
-int main() {
+int main(int argc, char** argv) {
+	argc--;
+	argv++;
+
+	std::size_t tab_size = 4;
+	std::string block_end_chars = ":{";
+	while (argc > 0) {
+		if (std::string(argv[0]) == "-t") {
+			if (argc == 1) {
+				std::cerr << "-t expects a number.\n";
+				return 1;
+			}
+			tab_size = std::atoi(argv[1]);
+			++ ++argv;
+			-- --argc;
+		} else if (std::string(argv[0]) == "--block-end-chars") {
+			if (argc == 1) {
+				std::cerr << "--block-end-chars expects a list of chars.\n";
+				return 1;
+			}
+			block_end_chars = argv[1];
+			++ ++argv;
+			-- --argc;
+		} else {
+			std::cerr << "Unknown argument: '" << argv[0] << "'.\n";
+			return 1;
+		}
+	}
+
+
 	std::vector<std::string> lines;
 
 	std::string line;
 	while (std::getline(std::cin, line))
 		lines.push_back(line);
 
-	std::vector<std::vector<std::size_t>> tabstops = elastic::calc_tabstops(lines, 4, ":{", [](std::string_view str) {
+	std::vector<std::vector<std::size_t>> tabstops = elastic::calc_tabstops(lines, tab_size, block_end_chars, [](std::string_view str) {
 		return elastic::get_strlen(str) - (str[str.size() - 2] == '(' ? 1 : 0);
 	});
 
